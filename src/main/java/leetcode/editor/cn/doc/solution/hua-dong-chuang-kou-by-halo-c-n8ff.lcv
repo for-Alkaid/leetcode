@@ -1,0 +1,60 @@
+### 解题思路
+
+使用滑动窗口法，定义左右两个指针，每次循环后判断本次最长字符串长度。
+
+### 代码
+
+* []
+
+```python
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        if not s:
+            return 0 
+        occ = set()
+        n = len(s)
+        # 定义右指针及ans
+        right, ans = -1, 0
+        # 每次移动左指针i
+        for i in range(n):
+            # 若不是第一次，则每次从set中移除一个元素
+            if i!=0:
+                occ.remove(s[i-1])
+            # 判断当右指针不为n-1或元素不在set时，添加元素，右指针加1
+            while right+1<n and s[right+1] not in occ:
+                occ.add(s[right+1])
+                right +=1
+            # 每次循环后，更新ans
+            ans = max(ans, right-i+1)
+        return ans 
+
+```
+
+* []
+
+```java
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        Set<Character> occ = new HashSet<Character>();
+        int n =s.length();
+        int right = -1;
+        int ans = 0;
+        for(int i=0;i<n;i++){
+            if(i!=0){
+                occ.remove(s.charAt(i-1));
+            }
+            while(right + 1 < n && !occ.contains(s.charAt(right+1))){
+                occ.add(s.charAt(right+1));
+                right++;
+            }
+            ans = Math.max(ans,right-i+1);
+        
+        }
+        return ans;
+    }
+}
+```
+
+时间复杂度：O(N)，其中 N 是字符串的长度。左指针和右指针分别会遍历整个字符串一次。
+
+空间复杂度：O(∣Σ∣)，其中 Σ表示字符集（即字符串中可以出现的字符），∣Σ∣表示字符集的大小。

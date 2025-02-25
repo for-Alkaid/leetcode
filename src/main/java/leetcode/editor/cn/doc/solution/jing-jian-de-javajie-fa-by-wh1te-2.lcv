@@ -1,0 +1,63 @@
+### 三指针解法
+
+这道题的解法主要注意以下几点：
+1. 处理边界条件，当head为null或者仅仅只有head这一个非空节点时，返回head即可
+2. 反转链表依赖于三个辅助指针，这里分别是`p1`、`p2`、`p3`，对于链表长度>=2的链表，使用这三个指针进行反转，在指定这三个指针的初始值后，需要断掉`p1`到`p2`的指针
+3. 接下来就是循环步骤了，对于被拆分成两截的链表，处理每个元素的指针，并且后移三个辅助指针即可
+4. 当`p3`移动到链表末尾后，需要连接第2步被拆掉了指针，使`p2`指向`p1`，此后返回`p2`即可
+5. 这道题在草稿纸上画清楚指针的移动步骤，对结题很有帮助，另外这道题不需要dummy指针的辅助
+
+* 
+
+```
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if(head == null || head.next == null) return head;
+        
+        ListNode p1 = head;
+        ListNode p2 = p1.next;
+        ListNode p3 = p2.next;
+        
+        p1.next = null;
+        
+        while(p3 != null){
+            p2.next = p1;
+
+            p1 = p2;
+            p2 = p3;
+            p3 = p3.next;
+        }
+        p2.next = p1;
+        return p2;
+    }
+}
+```
+
+### 递归解法
+
+递归解法主要包含以下几点：
+1. 边界条件处理，当head为null或者仅head这一个非空节点时，返回head
+2. 这里假设`head.next`的链表已经完成了反转（反转的子链表尾部是`head.next`），也即在这里进行递归，传入`head.next`，返回`t`这个节点代表原链表的尾部，也即新链表的头部
+3. 对于子递归传入的`head.next`这个节点，使其和`head`指针的指向逆过来
+4. 令`head.next=null`，不然会在`head`和`head.next`之间形成环，返回t即可
+
+* 
+
+```
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if(head == null || head.next == null) return head;
+        ListNode t = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return t;
+    }
+}
+```
+
+### 其他解法
+
+1. 官方给出的迭代的解法，其实原理和我给出的三指针解法类似，但是更为简洁
+2. 官方给出了递归的解法，和上述递归解法一致，注意这种解法因为栈调用的空间复杂度是$O(n)$
+3. 借助栈结构
+

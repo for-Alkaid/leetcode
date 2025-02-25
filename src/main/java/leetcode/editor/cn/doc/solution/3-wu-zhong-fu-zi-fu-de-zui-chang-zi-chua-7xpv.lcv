@@ -1,0 +1,40 @@
+### 解题思路
+
+set去重，统计每一次set不再增加元素的时候的容量大小直到遍历完所有字符。最后遍历count数组找到最大值即可。
+
+执行用时：
+141 ms, 在所有 Java 提交中击败了8.17%的用户
+内存消耗：
+39.1 MB, 在所有 Java 提交中击败了12.28%的用户
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if(s.length()==0||s.length()==1)return s.length();
+        char[] ch=s.toCharArray();
+        int[] count=new int[s.length()];
+        //count[i]表示以ch[i]结尾的最大不重复子串长度
+        count[0]=1;
+        for(int i=1;i<s.length();i++){
+            Set<Character> set=new HashSet<>();
+            set.add(ch[i]);
+            int j=i-1;
+            for(;j>=0;j--){
+                if(set.contains(ch[j]))break;
+                set.add(ch[j]);
+            }
+            count[i]=set.size();
+        }
+        int ans=1;
+        for(int i=1;i<count.length;i++){
+            ans=count[i]>ans?count[i]:ans;
+        }
+        return ans;
+    }
+}
+```
+
