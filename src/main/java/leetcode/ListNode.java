@@ -1,5 +1,9 @@
 package leetcode;
 
+
+import lombok.Data;
+
+
 public class ListNode {
      public int val;
      public ListNode next;

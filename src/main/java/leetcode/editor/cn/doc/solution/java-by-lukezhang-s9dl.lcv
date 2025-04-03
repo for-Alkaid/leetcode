@@ -1,0 +1,29 @@
+### 解题思路
+
+此处撰写解题思路
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public int[] plusOne(int[] digits) {
+        int[] newDigits = new int[digits.length + 1];
+        int p = 1;
+        for(int i=digits.length - 1;i>=0;i--) {
+            int res = digits[i] + p;
+            if(res == 10) {
+                newDigits[i + 1] = digits[i] = 0;
+                p = 1;
+            } else {
+                digits[i] = digits[i] + p;
+                return digits;
+            }
+        }
+        newDigits[0] = 1;
+        return newDigits;
+    }
+}
+```
+

@@ -1,0 +1,72 @@
+# 题目
+
+# 415. 字符串相加
+
+给定两个字符串形式的非负整数 `num1` 和 `num2` ，计算它们的和并同样以字符串形式返回。
+
+你不能使用任何内建的用于处理大整数的库（比如 `BigInteger`）， 也不能直接将输入的字符串转换为整数形式。
+
+# 题目分析
+
+这道题是对给出的两个字符串形式的数字模拟加法。根据小学列竖式的思想，主要分为六步：
+1. 对齐低位，即从两个字符串的末位开始从后往前计算；
+2. 计算每一位，当前位的和等于两个加数的当前位的数字之和再加上进位；
+3. 当前位的值等于当前位的和模`10`；
+4. 当前位产生的进位位等于当前位的和除以`10`并向下取整；
+5. 当两个数字的位数不一致，位数少的高位补`0`；
+6. 当计算完两个数字所有位后，进位位不为`0`的，即高位补`1`；
+
+![image.png](https://pic.leetcode.cn/1689525858-RWquJl-image.png)
+
+# 代码
+
+* []
+
+```java
+class Solution {
+    public String addStrings(String num1, String num2) {
+        int i = num1.length() - 1;  // 从num1末位开始相加
+        int j = num2.length() - 1;  // 从num2末位开始相加
+        int addSum;     // 两位相加之和
+        int carry = 0;  // 进位位
+        StringBuilder res = new StringBuilder();    // 生成结果字符串
+        while(i >= 0 || j >= 0){
+            // 只要有一个数字还没处理完，就继续处理
+            // 如果其中一个数字当前处理位已经超过最高位了（索引小于0），参与计算值的为0，即相当于高位补零
+            // 每一位的结果等于两个字符串当前位的数字之和再加进位位
+            // 计算当前位后i，j同时前移一位
+            addSum = (i < 0 ? 0 : num1.charAt(i--) - '0') + (j < 0 ? 0 : num2.charAt(j--) - '0') + carry;
+            res.append(addSum % 10);    // 结果模10为当前位的值，倒序生成
+            carry = addSum / 10;        // 结果除10为当前位的进位
+        }
+        if(carry == 1){
+            res.append(1);  // 最后还产生一个进位，高位补1
+        }
+        return res.reverse().toString();    // 由于结果是从低位到高位生成，因此需要取一个反向revers()
+    }
+}
+```
+
+* []
+
+```python
+class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+        i = len(num1) - 1   # 从num1末位开始相加
+        j = len(num2) - 1   # 从num2末位开始相加
+        carry = 0           # 进位位
+        res = ""            # 生成结果字符串
+        while i >= 0 or j >= 0:
+            # 只要有一个数字还没处理完，就继续处理
+            # 如果其中一个数字当前处理位已经超过最高位了（索引小于0），参与计算值的为0，即相当于高位补零
+            # 每一位的结果等于两个字符串当前位的数字之和再加进位位
+            add_sum = (0 if i < 0 else int(num1[i])) + (0 if j < 0 else int(num2[j])) + carry
+            res = f"{add_sum % 10}" + res   # 结果模10为当前位的值，插入到当前结果的最前面，即高位
+            carry = add_sum // 10           # 结果除10为当前位的进位
+            i -= 1      # 计算当前位后i，j同时前移一位
+            j -= 1
+        if carry == 1:
+            res = "1" + res     # 最后还产生一个进位，高位补1
+        return res
+```
+

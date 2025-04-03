@@ -1,7 +1,7 @@
 package leetcode.editor.cn;
 //这一行为CodeFileName内容
 //ReverseLinkedList
- 
+
 //这一段为CodeTemplate内容，每次打开新题会自动生成main方法，代码块以内部类的形式存在
 //给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。
 //
@@ -49,32 +49,38 @@ package leetcode.editor.cn;
 
 import leetcode.ListNode;
 
-public class ReverseLinkedList{
+public class ReverseLinkedList {
     public static void main(String[] args) {
-         Solution solution = new ReverseLinkedList().new Solution();
-        ListNode listNode = new ListNode();
+        Solution solution = new ReverseLinkedList().new Solution();
+        ListNode listNode = new ListNode(1, new ListNode(2, new ListNode(3)));
         solution.reverseList(listNode);
     }
     //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-class Solution {
-    public ListNode reverseList(ListNode head) {
-        if (head == null || head.next == null) return head;
-        ListNode newHead = reverseList(head.next);
-        head.next.next = head;
-        head.next = null;
-        return newHead;
+
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     * int val;
+     * ListNode next;
+     * ListNode() {}
+     * ListNode(int val) { this.val = val; }
+     * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
+    class Solution {
+        public ListNode reverseList(ListNode head) {
+            if (head == null || head.next == null) return head;
+            ListNode pre = null;
+            ListNode next = head.next;
+            while (next != null) {
+                next = head.next;
+                head.next = pre;
+                pre = head;
+                head = next;
+            }
+            return pre;
+        }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

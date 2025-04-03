@@ -65,7 +65,6 @@ package leetcode.editor.cn;
 
 public class LruCache{
     public static void main(String[] args) {
-         Solution solution = new LruCache().new Solution();
          
     }
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -76,7 +75,7 @@ class LRUCache {
     }
     
     public int get(int key) {
-        
+        return 0;
     }
     
     public void put(int key, int value) {
